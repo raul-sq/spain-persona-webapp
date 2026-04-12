@@ -1,73 +1,225 @@
-# React + TypeScript + Vite
+# Spain Persona Frontier
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Spain Persona Frontier is a React + TypeScript web app that explores Spanish audience segments through a concrete use case: **device access for practical AI training**.
 
-Currently, two official plugins are available:
+Instead of acting as a generic persona explorer, the app is intentionally focused on a single operational question:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**How does device access shape the suitability of different audience segments in Spain for practical AI training?**
 
-## React Compiler
+## Current focus
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The current version is built around a specific use case:
 
-## Expanding the ESLint configuration
+**Use case: Device access**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+The app lets the user inspect filtered audience segments and understand them through:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- selected segment by **region**, **area type**, and **age group**
+- estimated size of the filtered segment
+- dominant media channel
+- typical profile of the segment
+- device access and internet intensity as the central analytical lens
+- age and media-channel charts for context
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Data source
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+This project is based on the Hugging Face dataset:
+
+- `apol/spain-reference-personas-frontier`
+
+The current app uses an aggregated JSON derived from the `persona_core` subset.
+
+## Why this project exists
+
+This project was shaped around a product constraint: make the app **specific**, **real**, and tied to a **clear use case** rather than building a broad exploratory dashboard.
+
+The present approach balances two layers:
+
+- **cards that attack the use case**
+- **cards and charts that provide context**
+
+## Tech stack
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Recharts
+- Python for dataset inspection and aggregation
+
+## Repository structure
+
+```text
+spain-persona-webapp/
+├─ public/
+├─ src/
+│  ├─ components/
+│  │  ├─ AgeChart.tsx
+│  │  ├─ ChannelChart.tsx
+│  │  ├─ FilterBar.tsx
+│  │  └─ SnapshotCard.tsx
+│  ├─ data/
+│  │  ├─ mockPersonaData.ts
+│  │  └─ realPersonaData.json
+│  ├─ services/
+│  │  └─ personaService.ts
+│  ├─ types/
+│  │  └─ persona.ts
+│  ├─ App.tsx
+│  ├─ index.css
+│  └─ main.tsx
+├─ BuildRealPersonaData.py
+├─ ListPersonaCoreColumns.py
+├─ LoadDataset.py
+└─ README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Local development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Install dependencies:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+## Python scripts
+
+The repository includes Python scripts used to inspect and transform the source dataset.
+
+### `LoadDataset.py`
+
+Loads the Hugging Face dataset and prints sample information.
+
+Example:
+
+```bash
+py -3.14 LoadDataset.py
+```
+
+### `ListPersonaCoreColumns.py`
+
+Lists the available columns in the `persona_core` subset and can be used to inspect the field space before deciding what to aggregate.
+
+Example:
+
+```bash
+py -3.14 ListPersonaCoreColumns.py
+```
+
+### `BuildRealPersonaData.py`
+
+Builds `realPersonaData.json` from the `persona_core` subset.
+
+The current aggregation groups records by:
+
+- `region`
+- `urban_rural`
+- `age_group`
+
+and exports segment-level fields such as:
+
+- size
+- trust
+- price sensitivity
+- top issue
+- top channel signals
+- gender top
+- device access top
+- internet intensity top
+- education top
+- socioeconomic tier top
+- reading frequency top
+
+Example:
+
+```bash
+py -3.14 BuildRealPersonaData.py
+```
+
+After generating the file, copy the resulting JSON into:
+
+```text
+src/data/realPersonaData.json
+```
+
+## Current interface logic
+
+The current UI is organized around three layers:
+
+### 1. Filters
+
+The user filters by:
+
+- region
+- area type
+- age group
+
+### 2. Summary cards
+
+The app currently surfaces:
+
+- selected segment
+- estimated size
+- top channel
+- typical profile
+
+### 3. Use case block
+
+A dedicated block highlights:
+
+- device access
+- internet intensity
+
+This is the central product thesis of the current version.
+
+### 4. Context charts
+
+Two charts provide supporting context:
+
+- age distribution
+- media channels
+
+## Notes on data interpretation
+
+Some values shown in the UI are direct aggregations from the dataset, while others are dominant values within the selected segment.
+
+For example:
+
+- **Top channel** is derived from aggregated media-source signals
+- **Typical profile** summarizes dominant gender, education, socioeconomic tier, and reading frequency
+- **Device access focus** is centered on dominant device access and internet intensity for the selected segment
+
+## Status
+
+Current status: **first functional version**
+
+Implemented:
+
+- working React app
+- filters by region, area type, and age group
+- real aggregated data
+- use-case-oriented layout
+- custom card and chart styling
+- charts for age and media channels
+
+Planned next steps:
+
+- deploy directly from GitHub
+- continue refining the case-use framing
+- decide whether to keep expanding the app around `device_access` or pivot to another single core indicator
+
+## Author
+
+Raul Santos
