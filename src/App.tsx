@@ -114,7 +114,7 @@ export default function App() {
         <section className="mt-6 rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
           <div className="mb-4">
             <h2 className="text-3xl font-bold tracking-tight text-[#121b33]">
-              Use case: Device access
+              Use case: Device access for AI Training
             </h2>
             <p className="mt-1 text-sm text-[#4b6275]">
               Core digital access signal for the currently selected segment.
