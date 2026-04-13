@@ -6,6 +6,11 @@ import type {
   Snapshot,
 } from "../types/persona";
 
+type ChannelChartDatum = {
+  name: ChannelName;
+  value: number;
+};
+
 const CHANNEL_NAMES: ChannelName[] = [
   "Social media",
   "TV",
@@ -88,7 +93,7 @@ export function buildAgeChart(data: PersonaSegment[]): ChartDatum[] {
     }));
 }
 
-export function buildChannelChart(data: PersonaSegment[]): ChartDatum[] {
+export function buildChannelChart(data: PersonaSegment[]): ChannelChartDatum[] {
   const totals = createEmptyChannelTotals();
 
   if (data.length === 0) {
