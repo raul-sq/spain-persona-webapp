@@ -1,4 +1,6 @@
 import { GeoJSON, MapContainer, TileLayer } from "react-leaflet";
+import type { Feature, GeoJsonObject } from "geojson";
+import type { LatLngExpression, Path, PathOptions } from "leaflet";
 import spainCcaa from "../data/spain-ccaa.json";
 import { translateUiValue } from "../utils/translations";
 
@@ -6,6 +8,14 @@ type SpainRegionsMapProps = {
   selectedRegion: string;
   onSelectRegion: (region: string) => void;
 };
+
+type RegionFeatureProperties = {
+  shapeName?: string;
+  name?: string;
+  NAME_1?: string;
+};
+
+const MAP_CENTER: LatLngExpression = [40.2, -3.7];
 
 const REGION_NAME_MAP: Record<string, string> = {
   Andalucía: "Andalucía",
@@ -40,14 +50,30 @@ const REGION_NAME_MAP: Record<string, string> = {
   "País Vasco / Euskadi": "País Vasco",
 };
 
-function getRegionName(feature: any): string {
+function getRegionName(feature?: Feature | null): string {
+  const properties = feature?.properties as RegionFeatureProperties | undefined;
+
   const raw =
-    feature?.properties?.shapeName ??
-    feature?.properties?.name ??
-    feature?.properties?.NAME_1 ??
+    properties?.shapeName ??
+    properties?.name ??
+    properties?.NAME_1 ??
     "";
 
   return REGION_NAME_MAP[raw] ?? raw;
+}
+
+function getRegionStyle(
+  regionName: string,
+  selectedRegion: string
+): PathOptions {
+  const isSelected = regionName === selectedRegion;
+
+  return {
+    color: isSelected ? "#0ea5ea" : "#7fbfd2",
+    weight: isSelected ? 3 : 1.5,
+    fillColor: isSelected ? "#0ea5ea" : "#d9f0ec",
+    fillOpacity: isSelected ? 0.35 : 0.55,
+  };
 }
 
 export default function SpainRegionsMap({
@@ -67,31 +93,25 @@ export default function SpainRegionsMap({
 
       <div className="h-[420px] w-full overflow-hidden rounded-[20px] border border-[#b7dce8]">
         <MapContainer
-          center={[40.2, -3.7]}
+          center={MAP_CENTER}
           zoom={5}
           scrollWheelZoom={false}
           style={{ height: "100%", width: "100%" }}
         >
           <TileLayer
-            attribution="&copy; OpenStreetMap contributors"
+            attribution="© OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
           <GeoJSON
-            data={spainCcaa as any}
-            style={(feature: any) => {
+            data={spainCcaa as GeoJsonObject}
+            style={(feature) => {
               const regionName = getRegionName(feature);
-              const isSelected = regionName === selectedRegion;
-
-              return {
-                color: isSelected ? "#0ea5ea" : "#7fbfd2",
-                weight: isSelected ? 3 : 1.5,
-                fillColor: isSelected ? "#0ea5ea" : "#d9f0ec",
-                fillOpacity: isSelected ? 0.35 : 0.55,
-              };
+              return getRegionStyle(regionName, selectedRegion);
             }}
-            onEachFeature={(feature: any, layer: any) => {
+            onEachFeature={(feature, layer) => {
               const regionName = getRegionName(feature);
+              const pathLayer = layer as Path;
 
               layer.bindTooltip(translateUiValue(regionName), {
                 sticky: true,
@@ -104,20 +124,15 @@ export default function SpainRegionsMap({
                   );
                 },
                 mouseover: () => {
-                  layer.setStyle({
+                  pathLayer.setStyle({
                     weight: 3,
                     fillOpacity: 0.7,
                   });
                 },
                 mouseout: () => {
-                  layer.setStyle({
-                    color:
-                      regionName === selectedRegion ? "#0ea5ea" : "#7fbfd2",
-                    weight: regionName === selectedRegion ? 3 : 1.5,
-                    fillColor:
-                      regionName === selectedRegion ? "#0ea5ea" : "#d9f0ec",
-                    fillOpacity: regionName === selectedRegion ? 0.35 : 0.55,
-                  });
+                  pathLayer.setStyle(
+                    getRegionStyle(regionName, selectedRegion)
+                  );
                 },
               });
             }}
