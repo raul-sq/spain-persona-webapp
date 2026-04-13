@@ -28,7 +28,7 @@ const valueMap: Record<string, string> = {
   upper_middle: "Clase media-alta",
   middle: "Clase media",
   working: "Clase trabajadora",
-  precarious: "Precario",
+  precariat: "Precario",
   low: "Bajo",
 
   very_often: "Muy frecuente",

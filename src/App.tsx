@@ -119,23 +119,38 @@ export default function App() {
           </h1>
           <p className="mt-3 max-w-3xl text-base text-[#4b6275]">
             Explora segmentos de audiencia en España desde la óptica del acceso
-            a dispositivos para formación práctica en IA.
+            a dispositivos.
           </p>
         </header>
 
-        <section className="grid gap-6 xl:grid-cols-[1fr_1.15fr]">
-          <FilterBar
-            filters={filters}
-            areaTypes={options.areaTypes}
-            ageGroups={options.ageGroups}
-            onChange={handleFilterChange}
-            onReset={handleReset}
-          />
+        <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold tracking-tight text-[#121b33]">
+              Filtros
+            </h2>
+            <p className="mt-2 text-sm text-[#4b6275]">
+              Combina filtros demográficos con selección geográfica para acotar
+              el segmento visualizado.
+            </p>
+            <p className="mt-2 text-sm text-[#4b6275]">
+              Haz clic en una comunidad autónoma para filtrar por región.
+            </p>
+          </div>
 
-          <SpainRegionsMap
-            selectedRegion={filters.region}
-            onSelectRegion={handleRegionSelect}
-          />
+          <div className="grid gap-6 xl:grid-cols-[1fr_1.1fr] xl:items-start">
+            <FilterBar
+              filters={filters}
+              areaTypes={options.areaTypes}
+              ageGroups={options.ageGroups}
+              onChange={handleFilterChange}
+              onReset={handleReset}
+            />
+
+            <SpainRegionsMap
+              selectedRegion={filters.region}
+              onSelectRegion={handleRegionSelect}
+            />
+          </div>
         </section>
 
         <section className="mt-6 rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">

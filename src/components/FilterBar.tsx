@@ -17,14 +17,8 @@ export default function FilterBar({
   onReset,
 }: FilterBarProps) {
   return (
-    <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
-      <div className="mb-5">
-        <h2 className="text-2xl font-bold tracking-tight text-[#121b33]">
-          Filtros
-        </h2>
-      </div>
-
-      <div className="mb-4">
+    <div className="flex h-full flex-col">
+      <div className="mb-6 rounded-[20px] border border-[#b7dce8] bg-[#f7fbfc] p-4">
         <p className="text-sm font-medium text-[#4b6275]">Región seleccionada</p>
         <p className="mt-1 text-lg font-semibold text-[#121b33]">
           {translateUiValue(filters.region)}
@@ -72,11 +66,11 @@ export default function FilterBar({
 
         <button
           onClick={onReset}
-          className="rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-5 py-3 text-sm font-medium text-[#121b33] transition hover:border-[#0ea5ea]"
+          className="rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-5 py-3 text-sm font-medium text-[#121b33] transition hover:border-[#0ea5ea] lg:self-end"
         >
           Restablecer filtros
         </button>
       </div>
-    </section>
+    </div>
   );
 }
