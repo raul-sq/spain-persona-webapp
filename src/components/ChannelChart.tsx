@@ -17,9 +17,9 @@ export default function ChannelChart({ data }: ChannelChartProps) {
   return (
     <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-[#121b33]">Media channels</h2>
+        <h2 className="text-xl font-bold text-[#121b33]">Canales de medios</h2>
         <p className="mt-1 text-sm text-[#4b6275]">
-          Weighted channel affinity score.
+          Afinidad ponderada por canal.
         </p>
       </div>
 

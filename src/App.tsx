@@ -3,6 +3,7 @@ import FilterBar from "./components/FilterBar";
 import SnapshotCard from "./components/SnapshotCard";
 import AgeChart from "./components/AgeChart";
 import ChannelChart from "./components/ChannelChart";
+import SpainRegionsMap from "./components/SpainRegionsMap";
 import realPersonaData from "./data/realPersonaData.json";
 import {
   buildAgeChart,
@@ -12,6 +13,10 @@ import {
   getFilterOptions,
 } from "./services/personaService";
 import type { Filters, PersonaSegment } from "./types/persona";
+import {
+  translateChannelName,
+  translateUiValue,
+} from "./utils/translations";
 
 const initialFilters: Filters = {
   region: "All",
@@ -30,7 +35,9 @@ function getDominantSegment(data: PersonaSegment[]): PersonaSegment | null {
 }
 
 function formatSelectedSegment(filters: Filters): string {
-  return [filters.region, filters.areaType, filters.ageGroup].join(" · ");
+  return [filters.region, filters.areaType, filters.ageGroup]
+    .map((value) => translateUiValue(value))
+    .join(" · ");
 }
 
 function formatTypicalProfile(segment: PersonaSegment | null): string {
@@ -43,7 +50,9 @@ function formatTypicalProfile(segment: PersonaSegment | null): string {
     segment.educationTop,
     segment.socioeconomicTierTop,
     segment.readingFrequencyTop,
-  ].join(" · ");
+  ]
+    .map((value) => translateUiValue(value))
+    .join(" · ");
 }
 
 export default function App() {
@@ -60,8 +69,13 @@ export default function App() {
 
   const snapshot = useMemo(() => buildSnapshot(filteredData), [filteredData]);
   const ageChartData = useMemo(() => buildAgeChart(filteredData), [filteredData]);
+
   const channelChartData = useMemo(
-    () => buildChannelChart(filteredData),
+    () =>
+      buildChannelChart(filteredData).map((item) => ({
+        ...item,
+        name: translateChannelName(item.name),
+      })),
     [filteredData]
   );
 
@@ -77,61 +91,75 @@ export default function App() {
     }));
   }
 
+  function handleRegionSelect(region: string) {
+    setFilters((current) => ({
+      ...current,
+      region,
+    }));
+  }
+
   function handleReset() {
     setFilters(initialFilters);
   }
 
-  const compactNumber = new Intl.NumberFormat("en", {
+  const compactNumber = new Intl.NumberFormat("es", {
     notation: "compact",
     maximumFractionDigits: 1,
   });
 
   return (
     <div className="min-h-screen bg-[#f3f6f7] text-[#121b33]">
-      <main className="mx-auto max-w-6xl p-8">
+      <main className="mx-auto max-w-7xl p-8">
         <header className="mb-8">
           <p className="text-sm font-medium uppercase tracking-wide text-[#0ea5ea]">
-            Saturdays.AI · Powered by apol/spain-reference-personas-frontier
+            Saturdays.AI · Basado en apol/spain-reference-personas-frontier
           </p>
           <h1 className="mt-2 text-4xl font-bold tracking-tight text-[#121b33]">
             Spain Persona Frontier
           </h1>
           <p className="mt-3 max-w-3xl text-base text-[#4b6275]">
-            Explore Spanish audience segments through the lens of device access
-            for practical AI training.
+            Explora segmentos de audiencia en España desde la óptica del acceso
+            a dispositivos para formación práctica en IA.
           </p>
         </header>
 
-        <FilterBar
-          filters={filters}
-          regions={options.regions}
-          areaTypes={options.areaTypes}
-          ageGroups={options.ageGroups}
-          onChange={handleFilterChange}
-          onReset={handleReset}
-        />
+        <section className="grid gap-6 xl:grid-cols-[1fr_1.15fr]">
+          <FilterBar
+            filters={filters}
+            areaTypes={options.areaTypes}
+            ageGroups={options.ageGroups}
+            onChange={handleFilterChange}
+            onReset={handleReset}
+          />
+
+          <SpainRegionsMap
+            selectedRegion={filters.region}
+            onSelectRegion={handleRegionSelect}
+          />
+        </section>
 
         <section className="mt-6 rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
           <div className="mb-4">
             <h2 className="text-3xl font-bold tracking-tight text-[#121b33]">
-              Use case: Device access for AI training
+              Caso de uso: acceso a dispositivos
             </h2>
             <p className="mt-1 text-sm text-[#4b6275]">
-              Core digital access signal for the currently selected segment.
+              Señal central de acceso digital para el segmento actualmente
+              seleccionado.
             </p>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <p className="text-sm text-[#4b6275]">Device access</p>
+              <p className="text-sm text-[#4b6275]">Acceso a dispositivos</p>
               <p className="mt-1 text-lg font-semibold text-[#121b33]">
-                {dominantSegment?.deviceAccessTop ?? "—"}
+                {translateUiValue(dominantSegment?.deviceAccessTop ?? "—")}
               </p>
             </div>
             <div>
-              <p className="text-sm text-[#4b6275]">Internet intensity</p>
+              <p className="text-sm text-[#4b6275]">Intensidad de internet</p>
               <p className="mt-1 text-lg font-semibold text-[#121b33]">
-                {dominantSegment?.internetIntensityTop ?? "—"}
+                {translateUiValue(dominantSegment?.internetIntensityTop ?? "—")}
               </p>
             </div>
           </div>
@@ -139,24 +167,24 @@ export default function App() {
 
         <section className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <SnapshotCard
-            title="Selected segment"
+            title="Segmento seleccionado"
             value={formatSelectedSegment(filters)}
-            description={`Top issue: ${snapshot.topIssue}`}
+            description={`Tema principal: ${snapshot.topIssue}`}
           />
           <SnapshotCard
-            title="Estimated size"
+            title="Tamaño estimado"
             value={compactNumber.format(snapshot.totalSize)}
-            description={`Built from ${snapshot.segmentCount} matching segments.`}
+            description={`Construido a partir de ${snapshot.segmentCount} segmentos coincidentes.`}
           />
           <SnapshotCard
-            title="Top channel"
-            value={snapshot.topChannel}
-            description="Aggregated from primary news sources."
+            title="Canal principal"
+            value={translateChannelName(snapshot.topChannel)}
+            description="Agregado a partir de las fuentes principales de noticias."
           />
           <SnapshotCard
-            title="Typical profile"
+            title="Perfil típico"
             value={formatTypicalProfile(dominantSegment)}
-            description="Dominant gender, education, socioeconomic tier and reading frequency in the selected segment."
+            description="Género, educación, nivel socioeconómico y frecuencia de lectura dominantes en el segmento seleccionado."
           />
         </section>
 

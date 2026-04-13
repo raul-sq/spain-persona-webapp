@@ -17,9 +17,11 @@ export default function AgeChart({ data }: AgeChartProps) {
   return (
     <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
       <div className="mb-4">
-        <h2 className="text-xl font-bold text-[#121b33]">Age distribution</h2>
+        <h2 className="text-xl font-bold text-[#121b33]">
+          Distribución por edad
+        </h2>
         <p className="mt-1 text-sm text-[#4b6275]">
-          Estimated cohort size by age group.
+          Tamaño estimado de la cohorte por grupo de edad.
         </p>
       </div>
 
