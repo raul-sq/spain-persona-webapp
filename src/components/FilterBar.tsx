@@ -18,15 +18,15 @@ export default function FilterBar({
 }: FilterBarProps) {
   return (
     <div className="flex h-full flex-col">
-      <div className="mb-6 rounded-[20px] border border-[#b7dce8] bg-[#f7fbfc] p-4">
+      <div className="mb-4 rounded-[20px] border border-[#b7dce8] bg-[#f7fbfc] p-3">
         <p className="text-sm font-medium text-[#4b6275]">Región seleccionada</p>
         <p className="mt-1 text-lg font-semibold text-[#121b33]">
           {translateUiValue(filters.region)}
         </p>
       </div>
 
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end">
-        <div className="grid flex-1 gap-4 md:grid-cols-2">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
+        <div className="grid flex-1 gap-3 md:grid-cols-2">
           <label className="text-left">
             <span className="mb-2 block text-sm font-medium text-[#4b6275]">
               Tipo de área
@@ -34,7 +34,7 @@ export default function FilterBar({
             <select
               value={filters.areaType}
               onChange={(e) => onChange("areaType", e.target.value)}
-              className="w-full rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-4 py-3 text-sm text-[#121b33] outline-none transition focus:border-[#0ea5ea]"
+              className="w-full rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-3 py-2 text-sm text-[#121b33] outline-none transition focus:border-[#0ea5ea]"
             >
               <option value="All">{translateUiValue("All")}</option>
               {areaTypes.map((areaType) => (
@@ -52,7 +52,7 @@ export default function FilterBar({
             <select
               value={filters.ageGroup}
               onChange={(e) => onChange("ageGroup", e.target.value)}
-              className="w-full rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-4 py-3 text-sm text-[#121b33] outline-none transition focus:border-[#0ea5ea]"
+              className="w-full rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-3 py-2 text-sm text-[#121b33] outline-none transition focus:border-[#0ea5ea]"
             >
               <option value="All">{translateUiValue("All")}</option>
               {ageGroups.map((ageGroup) => (
@@ -66,7 +66,7 @@ export default function FilterBar({
 
         <button
           onClick={onReset}
-          className="rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-5 py-3 text-sm font-medium text-[#121b33] transition hover:border-[#0ea5ea] lg:self-end"
+          className="rounded-xl border border-[#b7dce8] bg-[#f7fbfc] px-4 py-2 text-sm font-medium text-[#121b33] transition hover:border-[#0ea5ea] lg:self-end"
         >
           Restablecer filtros
         </button>

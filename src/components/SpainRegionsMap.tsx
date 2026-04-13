@@ -97,7 +97,7 @@ export default function SpainRegionsMap({
 }: SpainRegionsMapProps) {
   return (
     <div className="h-full">
-      <div className="h-[320px] w-full overflow-hidden rounded-[20px] border border-[#b7dce8] md:h-[380px] xl:h-[420px]">
+      <div className="h-[280px] w-full overflow-hidden rounded-[20px] border border-[#b7dce8] md:h-[320px] xl:h-[360px]">
         <MapContainer
           center={MAP_CENTER}
           zoom={5}

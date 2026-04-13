@@ -109,35 +109,35 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#f3f6f7] text-[#121b33]">
-      <main className="mx-auto max-w-7xl p-8">
-        <header className="mb-8">
-          <p className="text-sm font-medium uppercase tracking-wide text-[#0ea5ea]">
+      <main className="mx-auto max-w-7xl p-4 md:p-5">
+        <header className="mb-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-[#0ea5ea] md:text-sm">
             Saturdays.AI · Basado en apol/spain-reference-personas-frontier
           </p>
-          <h1 className="mt-2 text-4xl font-bold tracking-tight text-[#121b33]">
+          <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#121b33] md:mt-2 md:text-3xl">
             Spain Persona Frontier
           </h1>
-          <p className="mt-3 max-w-3xl text-base text-[#4b6275]">
+          <p className="mt-2 max-w-3xl text-sm text-[#4b6275]">
             Explora segmentos de audiencia en España desde la óptica del acceso
             a dispositivos.
           </p>
         </header>
 
-        <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
-          <div className="mb-6">
-            <h2 className="text-2xl font-bold tracking-tight text-[#121b33]">
+        <section className="rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-4 shadow-sm md:p-5">
+          <div className="mb-4">
+            <h2 className="text-lg font-bold tracking-tight text-[#121b33] md:text-xl">
               Filtros
             </h2>
             <p className="mt-2 text-sm text-[#4b6275]">
               Combina filtros demográficos con selección geográfica para acotar
               el segmento visualizado.
             </p>
-            <p className="mt-2 text-sm text-[#4b6275]">
+            <p className="mt-1.5 text-sm text-[#4b6275]">
               Haz clic en una comunidad autónoma para filtrar por región.
             </p>
           </div>
 
-          <div className="grid gap-6 xl:grid-cols-[1fr_1.1fr] xl:items-start">
+          <div className="grid gap-4 xl:grid-cols-[1fr_1.1fr] xl:items-start">
             <FilterBar
               filters={filters}
               areaTypes={options.areaTypes}
@@ -153,9 +153,9 @@ export default function App() {
           </div>
         </section>
 
-        <section className="mt-6 rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-6 shadow-sm">
-          <div className="mb-4">
-            <h2 className="text-3xl font-bold tracking-tight text-[#121b33]">
+        <section className="mt-4 rounded-[28px] border border-[#bfe8f3] bg-[#d9f0ec] p-4 shadow-sm md:p-5">
+          <div className="mb-3">
+            <h2 className="text-xl font-bold tracking-tight text-[#121b33] md:text-2xl">
               Caso de uso: acceso a dispositivos
             </h2>
             <p className="mt-1 text-sm text-[#4b6275]">
@@ -164,23 +164,23 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2">
             <div>
               <p className="text-sm text-[#4b6275]">Acceso a dispositivos</p>
-              <p className="mt-1 text-lg font-semibold text-[#121b33]">
+              <p className="mt-1 text-base font-semibold text-[#121b33] md:text-lg">
                 {translateUiValue(dominantSegment?.deviceAccessTop ?? "—")}
               </p>
             </div>
             <div>
               <p className="text-sm text-[#4b6275]">Intensidad de internet</p>
-              <p className="mt-1 text-lg font-semibold text-[#121b33]">
+              <p className="mt-1 text-base font-semibold text-[#121b33] md:text-lg">
                 {translateUiValue(dominantSegment?.internetIntensityTop ?? "—")}
               </p>
             </div>
           </div>
         </section>
 
-        <section className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <section className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <SnapshotCard
             title="Segmento seleccionado"
             value={formatSelectedSegment(filters)}
@@ -203,7 +203,7 @@ export default function App() {
           />
         </section>
 
-        <section className="mt-8 grid gap-6 xl:grid-cols-2">
+        <section className="mt-5 grid gap-4 xl:grid-cols-2">
           <AgeChart data={ageChartData} />
           <ChannelChart data={channelChartData} />
         </section>
