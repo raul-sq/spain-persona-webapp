@@ -1,10 +1,10 @@
 # Spain Persona Frontier
 
-Spain Persona Frontier is a React + TypeScript web app that explores Spanish audience segments through a concrete use case: **device access for practical AI training**.
+Spain Persona Frontier is a React + TypeScript web app that explores Spanish audience segments through a concrete use case: **device access**.
 
 Instead of acting as a generic persona explorer, the app is intentionally focused on a single operational question:
 
-**How does device access shape the suitability of different audience segments in Spain for practical AI training?**
+**How does device access shape the digital profile of different audience segments in Spain?**
 
 ## Current focus
 
