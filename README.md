@@ -51,27 +51,48 @@ The present approach balances two layers:
 
 ```text
 spain-persona-webapp/
-├─ public/
-├─ src/
-│  ├─ components/
-│  │  ├─ AgeChart.tsx
-│  │  ├─ ChannelChart.tsx
-│  │  ├─ FilterBar.tsx
-│  │  └─ SnapshotCard.tsx
-│  ├─ data/
-│  │  ├─ mockPersonaData.ts
-│  │  └─ realPersonaData.json
-│  ├─ services/
-│  │  └─ personaService.ts
-│  ├─ types/
-│  │  └─ persona.ts
-│  ├─ App.tsx
-│  ├─ index.css
-│  └─ main.tsx
-├─ BuildRealPersonaData.py
-├─ ListPersonaCoreColumns.py
-├─ LoadDataset.py
-└─ README.md
+├── public
+│   ├── favicon.svg
+│   └── icons.svg
+├── src
+│   ├── assets
+│   │   ├── hero.png
+│   │   ├── react.svg
+│   │   └── vite.svg
+│   ├── components
+│   │   ├── AgeChart.tsx
+│   │   ├── ChannelChart.tsx
+│   │   ├── FilterBar.tsx
+│   │   ├── SnapshotCard.tsx
+│   │   └── SpainRegionsMap.tsx
+│   ├── data
+│   │   ├── realPersonaData.json
+│   │   └── spain-ccaa.json
+│   ├── services
+│   │   └── personaService.ts
+│   ├── types
+│   │   └── persona.ts
+│   ├── utils
+│   │   └── translations.ts
+│   ├── App.css
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
+├── .gitignore
+├── BuildRealPersonaData.py
+├── eslint.config.js
+├── index.html
+├── ListPersonaCoreColumns.py
+├── LoadDataset.py
+├── package-lock.json
+├── package.json
+├── persona_core_columns.txt
+├── README.md
+├── realPersonaData.json
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
 ```
 
 ## Local development
@@ -214,12 +235,10 @@ Implemented:
 - custom card and chart styling
 - charts for age and media channels
 
-Planned next steps:
+## Live demo
 
-- deploy directly from GitHub
-- continue refining the case-use framing
-- decide whether to keep expanding the app around `device_access` or pivot to another single core indicator
+https://spain-persona-webapp.netlify.app/
 
 ## Author
 
-Raul Santos
+Raul Santos Quirós
